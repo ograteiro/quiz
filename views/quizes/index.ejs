@@ -1,5 +1,5 @@
 <form method="get" action="/quizes">        
-	<p>Buscar pregunta:</p>
+	<p>Buscar pregunta:
 	<input type="text" name="search" value=""/>
 	<input type="submit" value="Enviar">
 </form>
@@ -9,5 +9,5 @@
      		<tr><td><a href="quizes/<%= quizes[i].id %>"><%= quizes[i].pregunta %></a></td></tr> 
 	<% } %>
 </table>
-
-
+<p>
+<a href="/quizes/new"><button type="button">Crear pregunta</button></a>
