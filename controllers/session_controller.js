@@ -33,13 +33,25 @@ exports.create = function(req, res) {
         // Crear req.session.user y guardar campos   id  y  username
         // La sesión se define por la existencia de:    req.session.user
         req.session.user = {id:user.id, username:user.username};
-
-        res.redirect(req.session.redir.toString());// redirección a path anterior a login
+	
+	// Fijar la fecha de creación 
+	req.session.timestamp = Date.now();
+	if(req.session && req.session.redir){
+        	res.redirect(req.session.redir.toString());// redirección a path anterior a login
+	} else {
+		console.log('There is no valid redir url linked to this request. Redirecting to ..');
+		res.redirect('..');
+	}
     });
 };
 
 // DELETE /logout   -- Destruir sesion 
 exports.destroy = function(req, res) {
     delete req.session.user;
-    res.redirect(req.session.redir.toString()); // redirect a path anterior a login
+    if(req.session && req.session.redir) {
+    	res.redirect(req.session.redir.toString()); // redirect a path anterior a login
+    } else {
+	console.log('There is no valid redir url linked to this request. Redirecting to ..');
+	res.redirect('..');
+    }
 };

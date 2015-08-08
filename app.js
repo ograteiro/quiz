@@ -31,6 +31,23 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 // Helpers dinamicos:
+
+app.use(function(req, res, next) {
+
+  // guardar path en session.redir para despues de login
+  if (req.session && req.session.user) {
+	var currentStamp = Date.now();
+	if ( currentStamp - req.session.timestamp < 120000) {
+  		req.session.timestamp = currentStamp;
+	} else {
+		console.log('Session for user ' + req.session.user.username.toString() + ' has expired');
+		delete req.session.user;
+	}
+  }
+
+  next();
+});
+
 app.use(function(req, res, next) {
 
   // guardar path en session.redir para despues de login
