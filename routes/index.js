@@ -5,20 +5,19 @@ var quizController = require('../controllers/quiz_controller');
 var commentController = require('../controllers/comment_controller');
 var sessionController = require('../controllers/session_controller');
 
-
 /* GET home page. */
 router.get('/', function(req, res) {
   res.render('index', { title: 'Quiz', errors: [] });
 });
 
-router.param('quizId', quizController.load); // autoload :quizId
-
+// Autoload :quizId, :commentId
+router.param('quizId', quizController.load); 
+router.param('commentId', commentController.load); 
 
 // Session management
 router.get('/login',  sessionController.new);     // login form
 router.post('/login', sessionController.create);  // create sesión
 router.get('/logout', sessionController.destroy); // destroy sesión
-
 
 /* GET quiz index, create a new question, search question by id & get answer by id */
 router.get('/quizes', quizController.index);
@@ -34,6 +33,9 @@ router.delete('/quizes/:quizId(\\d+)', sessionController.loginRequired, quizCont
 /* Comments management */
 router.get('/quizes/:quizId(\\d+)/comments/new', commentController.new);
 router.post('/quizes/:quizId(\\d+)/comments', commentController.create);
+router.get('/quizes/:quizId(\\d+)/comments/:commentId(\\d+)/publish', 
+	                                    sessionController.loginRequired, commentController.publish);
+
 
 /* GET credits page */
 router.get('/author', function(req, res) {
