@@ -1,0 +1,11 @@
+<p><strong>Estadísticas:</strong></p>
+
+<table>
+	<% for (measure in statistics) { %>        
+     		<tr>
+			<td><%= statistics[measure].name %></td>
+    		        <td><%= statistics[measure].value %></td>
+		</tr> 
+	<% } %>
+</table>
+
