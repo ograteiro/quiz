@@ -1,7 +1,7 @@
 var models = require('../models/models.js');
 
 exports.show = function(req, res) {
-    // TODO Consultar todos los datos y devolverlos como parametro en el res.rend
+
     var statistics = {nQueries: {name: "Numero de preguntas", value: 0 }, 
                       nComments: {name: "Numero de comentarios", value: 0},
                       avgCommentsPerQuestion: {name: "Media de comentarios por pregunta", value: 0},
@@ -18,7 +18,7 @@ exports.show = function(req, res) {
 			then(function(nComments){
 				statistics.nComments.value = nComments;
 				console.log("Number of comments:" + nComments);
-				return models.Quiz.count({include: [{model: models.Comment, required: true}]});
+				return models.Quiz.count({distinct:true, include: [{model: models.Comment, required: true}]});
 			}).
 			then(function (nQueriesWithComm){
 				statistics.nQueriesWithComments.value = nQueriesWithComm;
